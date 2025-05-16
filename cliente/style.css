@@ -1,0 +1,223 @@
+/* Estilos específicos para o dashboard do paciente */
+
+/* Variáveis de cores */
+:root {
+    --primary: #3b82f6;
+    --primary-light: #93c5fd;
+    --primary-dark: #1d4ed8;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --danger: #ef4444;
+    --info: #6366f1;
+    --gray-light: #f3f4f6;
+    --gray: #9ca3af;
+    --gray-dark: #4b5563;
+  }
+  
+  /* Animações */
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .fade-in-animation {
+    opacity: 0;
+    animation: fadeIn 0.8s ease-in-out forwards;
+    animation-delay: 2.2s; /* Começa após a tela de boas-vindas desaparecer */
+  }
+  
+  /* Estilos para o menu superior */
+  .menu-item {
+    position: relative;
+    transition: all 0.3s ease;
+    padding-bottom: 0.5rem;
+  }
+  
+  .menu-item::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 0;
+    left: 50%;
+    background-color: var(--primary);
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+  }
+  
+  .menu-item:hover::after, 
+  .menu-item.active::after {
+    width: 100%;
+  }
+  
+  .menu-item.active {
+    color: var(--primary);
+    font-weight: 500;
+  }
+  
+  /* Estilos para cards */
+  .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Estilos para botões */
+  .btn {
+    transition: all 0.3s ease;
+  }
+  
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  
+  .btn:active {
+    transform: translateY(0);
+  }
+  
+  /* Estilos para a tela de boas-vindas */
+  .welcome-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 50;
+    animation: fadeOut 1.5s ease-in-out forwards;
+    animation-delay: 2s;
+  }
+  
+  @keyframes fadeOut {
+    0% { opacity: 1; visibility: visible; }
+    100% { opacity: 0; visibility: hidden; }
+  }
+  
+  .welcome-logo {
+    animation: pulseAnimation 2s infinite;
+  }
+  
+  @keyframes pulseAnimation {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+  
+  /* Estilos para medicamentos */
+  .medicamento-card {
+    transition: all 0.3s ease;
+  }
+  
+  .medicamento-card:hover {
+    background-color: var(--gray-light);
+  }
+  
+  .medicamento-tomado {
+    opacity: 0.6;
+  }
+  
+  /* Estilos para exames */
+  .exame-card {
+    transition: all 0.3s ease;
+  }
+  
+  .exame-card:hover {
+    border-color: var(--primary);
+  }
+  
+  /* Estilos para consultas */
+  .consulta-card {
+    transition: all 0.3s ease;
+  }
+  
+  .consulta-card:hover {
+    background-color: var(--gray-light);
+  }
+  
+  /* Estilos para o botão de emergência */
+  .emergency-button {
+    transition: all 0.3s ease;
+  }
+  
+  .emergency-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .emergency-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .welcome-screen {
+      padding: 1rem;
+    }
+    
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Estilos para notificações */
+  .notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--danger);
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* Estilos para gráficos */
+  .chart-container {
+    position: relative;
+    height: 40vh;
+    width: 100%;
+  }
+  
+  /* Estilos para tooltips */
+  .tooltip {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip .tooltip-text {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--gray-dark);
+    color: white;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  
+  .tooltip:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+  

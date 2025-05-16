@@ -1,0 +1,216 @@
+/* Estilos para o dashboard do governo */
+body {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  body.loaded {
+    opacity: 1;
+  }
+  
+  /* Estilização dos cards */
+  .card-indicator {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .card-indicator:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilização das tabelas */
+  table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+  
+  table tbody tr {
+    transition: background-color 0.2s ease;
+  }
+  
+  table tbody tr:hover {
+    background-color: rgba(243, 244, 246, 0.7);
+  }
+  
+  /* Estilização dos gráficos */
+  .chart-container {
+    position: relative;
+    height: 16rem;
+  }
+  
+  /* Estilização das seções */
+  .section {
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .section.hidden {
+    display: none;
+  }
+  
+  /* Animação do menu do usuário */
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  #userMenu:not(.hidden) {
+    animation: fadeDown 0.2s ease-out forwards;
+  }
+  
+  /* Estilização dos status */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+  }
+  
+  .status-badge.success {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: rgb(16, 185, 129);
+  }
+  
+  .status-badge.warning {
+    background-color: rgba(245, 158, 11, 0.1);
+    color: rgb(245, 158, 11);
+  }
+  
+  .status-badge.danger {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: rgb(239, 68, 68);
+  }
+  
+  /* Estilização dos botões de filtro */
+  .filter-button {
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+  }
+  
+  .filter-button:hover {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.3);
+  }
+  
+  .filter-button.active {
+    background-color: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.5);
+    color: rgb(59, 130, 246);
+  }
+  
+  /* Estilização das notificações */
+  .notification-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 1rem;
+    width: 1rem;
+    background-color: rgb(239, 68, 68);
+    border-radius: 9999px;
+    font-size: 0.625rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+  }
+  
+  /* Estilização dos tooltips */
+  .tooltip {
+    position: relative;
+  }
+  
+  .tooltip:hover::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(17, 24, 39, 0.9);
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    white-space: nowrap;
+    z-index: 10;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* Estilização dos inputs de pesquisa */
+  .search-input {
+    transition: all 0.2s ease;
+  }
+  
+  .search-input:focus {
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Estilização das barras de progresso */
+  .progress-bar {
+    height: 0.5rem;
+    border-radius: 9999px;
+    background-color: rgba(229, 231, 235, 1);
+    overflow: hidden;
+  }
+  
+  .progress-bar-fill {
+    height: 100%;
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+  }
+  
+  /* Estilização dos cards de alerta */
+  .alert-card {
+    border-left-width: 4px;
+    transition: transform 0.2s ease;
+  }
+  
+  .alert-card:hover {
+    transform: translateX(5px);
+  }
+  
+  /* Animações para os dados em tempo real */
+  .live-counter {
+    transition: all 0.3s ease;
+  }
+  
+  .live-counter.updated {
+    animation: pulse 1s ease;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+      color: rgb(59, 130, 246);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  /* Responsividade para telas menores */
+  @media (max-width: 768px) {
+    .chart-container {
+      height: 12rem;
+    }
+    
+    .card-grid {
+      grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+    
+    .data-table th, .data-table td {
+      padding: 0.5rem;
+    }
+  }
+  

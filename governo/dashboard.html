@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HealthSync - Dashboard Governo</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Efeito de fade-in */
+    body {
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    
+    body.loaded {
+      opacity: 1;
+    }
+    
+    .card-indicator {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    
+    .card-indicator:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+    
+    .chart-container {
+      position: relative;
+      height: 16rem;
+    }
+    
+    .section {
+      transition: opacity 0.3s ease-in-out;
+    }
+    
+    .section.hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <!-- Cabeçalho superior -->
+  <header class="bg-blue-600 text-white shadow-md">
+    <div class="container mx-auto px-4 py-3">
+      <div class="flex justify-between items-center">
+        <div class="flex items-center">
+          <i class="fas fa-heartbeat text-2xl mr-2"></i>
+          <h1 class="text-xl font-bold">HealthSync</h1>
+        </div>
+        
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <input type="text" placeholder="Pesquisar..." class="pl-10 pr-4 py-2 text-gray-700 bg-white border-0 rounded-lg focus:outline-none focus:ring-2 focus:ring-white">
+            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+          </div>
+          
+          <div class="relative">
+            <button class="relative p-2 rounded-full hover:bg-blue-700">
+              <i class="fas fa-bell"></i>
+              <span class="absolute top-0 right-0 h-4 w-4 bg-red-500 rounded-full text-xs flex items-center justify-center">3</span>
+            </button>
+          </div>
+          
+          <div class="border-l border-blue-500 h-8 mx-2"></div>
+          
+          <div class="flex items-center relative">
+            <button id="userMenuButton" class="flex items-center focus:outline-none">
+              <div class="w-8 h-8 rounded-full bg-blue-800 flex items-center justify-center text-white mr-2">
+                <span class="font-medium">GO</span>
+              </div>
+              <span class="font-medium mr-1">Gestor SUS</span>
+              <i class="fas fa-chevron-down text-xs ml-1"></i>
+            </button>
+            
+            <div id="userMenu" class="absolute right-0 top-full mt-2 w-48 bg-white rounded-md shadow-lg py-1 hidden z-20 text-gray-700">
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                <i class="fas fa-user mr-2"></i> Meu Perfil
+              </a>
+              <a href="#" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                <i class="fas fa-cog mr-2"></i> Configurações
+              </a>
+              <div class="border-t border-gray-100 my-1"></div>
+              <a href="index.html" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                <i class="fas fa-sign-out-alt mr-2"></i> Sair
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Menu de navegação -->
+  <nav class="bg-white shadow-md">
+    <div class="container mx-auto px-4">
+      <div class="flex space-x-1">
+        <a href="#" data-section="dashboard" class="px-4 py-3 text-blue-600 border-b-2 border-blue-600 font-medium">
+          <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+        </a>
+        <a href="#" data-section="epidemiologia" class="px-4 py-3 text-gray-600 hover:text-blue-600 font-medium">
+          <i class="fas fa-virus mr-2"></i> Epidemiologia
+        </a>
+        <a href="#" data-section="vacinacao" class="px-4 py-3 text-gray-600 hover:text-blue-600 font-medium">
+          <i class="fas fa-syringe mr-2"></i> Vacinação
+        </a>
+        <a href="#" data-section="recursos" class="px-4 py-3 text-gray-600 hover:text-blue-600 font-medium">
+          <i class="fas fa-money-bill-wave mr-2"></i> Recursos
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <!-- Conteúdo principal -->
+  <main class="container mx-auto px-4 py-6">
+    <!-- Dashboard principal -->
+    <section id="dashboard" class="section">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Dashboard Nacional</h2>
+        <p class="text-gray-600">Visão geral dos indicadores de saúde pública</p>
+      </div>
+      
+      <!-- Cards de resumo -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <!-- Card 1: Atendimentos -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Atendimentos</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">2.4M</h3>
+              <p class="text-sm text-green-600 mt-1">+5.3% este mês</p>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-full">
+              <i class="fas fa-stethoscope text-blue-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 2: Internações -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Internações</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">458K</h3>
+              <p class="text-sm text-red-600 mt-1">+2.7% este mês</p>
+            </div>
+            <div class="bg-green-100 p-3 rounded-full">
+              <i class="fas fa-procedures text-green-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 3: Cobertura Vacinal -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Cobertura Vacinal</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">78.3%</h3>
+              <p class="text-sm text-gray-600 mt-1">Média nacional</p>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-full">
+              <i class="fas fa-shield-virus text-yellow-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Card 4: Orçamento -->
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Orçamento 2023</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">R$ 152.4B</h3>
+              <p class="text-sm text-purple-600 mt-1">62% executado</p>
+            </div>
+            <div class="bg-purple-100 p-3 rounded-full">
+              <i class="fas fa-money-bill-wave text-purple-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gráficos principais -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Indicadores Nacionais</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="indicadoresChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Distribuição Regional</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="mapaCalorChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabela de alertas -->
+      <div class="bg-white rounded-lg shadow-md mb-6">
+        <div class="p-4 border-b border-gray-100">
+          <h3 class="text-lg font-bold text-gray-800">Alertas Epidemiológicos</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Região</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Doença</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Casos</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">Nordeste</td>
+                <td class="px-6 py-4 whitespace-nowrap">Dengue</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Crítico</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">12,458</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" class="text-blue-600 hover:text-blue-900">Detalhes</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">Sudeste</td>
+                <td class="px-6 py-4 whitespace-nowrap">COVID-19</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Atenção</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">8,245</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" class="text-blue-600 hover:text-blue-900">Detalhes</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">Sul</td>
+                <td class="px-6 py-4 whitespace-nowrap">Influenza</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Controlado</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">3,127</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" class="text-blue-600 hover:text-blue-900">Detalhes</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Seção Epidemiologia -->
+    <section id="epidemiologia" class="section hidden">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Vigilância Epidemiológica</h2>
+        <p class="text-gray-600">Monitoramento de doenças e agravos à saúde</p>
+      </div>
+      
+      <!-- Conteúdo da seção de epidemiologia -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md p-6 lg:col-span-2">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Incidência de Doenças</h3>
+          <div class="chart-container">
+            <canvas id="epidemiologiaChart"></canvas>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-bold text-gray-800 mb-4">Principais Agravos</h3>
+          <ul class="space-y-4">
+            <li class="flex items-center justify-between">
+              <span class="text-gray-700">Dengue</span>
+              <div class="w-2/3">
+                <div class="bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-red-500 h-2.5 rounded-full" style="width: 85%"></div>
+                </div>
+              </div>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-gray-700">COVID-19</span>
+              <div class="w-2/3">
+                <div class="bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-yellow-500 h-2.5 rounded-full" style="width: 65%"></div>
+                </div>
+              </div>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-gray-700">Influenza</span>
+              <div class="w-2/3">
+                <div class="bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-blue-500 h-2.5 rounded-full" style="width: 45%"></div>
+                </div>
+              </div>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-gray-700">Tuberculose</span>
+              <div class="w-2/3">
+                <div class="bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-green-500 h-2.5 rounded-full" style="width: 30%"></div>
+                </div>
+              </div>
+            </li>
+            <li class="flex items-center justify-between">
+              <span class="text-gray-700">Malária</span>
+              <div class="w-2/3">
+                <div class="bg-gray-200 rounded-full h-2.5">
+                  <div class="bg-purple-500 h-2.5 rounded-full" style="width: 25%"></div>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md mb-6">
+        <div class="p-4 border-b border-gray-100">
+          <h3 class="text-lg font-bold text-gray-800">Mapa de Calor - Incidência Nacional</h3>
+        </div>
+        <div class="p-4">
+          <div class="h-96 bg-gray-100 rounded flex items-center justify-center">
+            <p class="text-gray-500">Mapa de calor com distribuição geográfica de casos</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Seção Vacinação -->
+    <section id="vacinacao" class="section hidden">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Programa Nacional de Imunização</h2>
+        <p class="text-gray-600">Gestão de campanhas e cobertura vacinal</p>
+      </div>
+      
+      <!-- Cards de resumo de vacinação -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Doses Aplicadas</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">145.8M</h3>
+              <p class="text-sm text-green-600 mt-1">+2.1% este mês</p>
+            </div>
+            <div class="bg-blue-100 p-3 rounded-full">
+              <i class="fas fa-syringe text-blue-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Cobertura Infantil</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">82.7%</h3>
+              <p class="text-sm text-red-600 mt-1">-1.3% este mês</p>
+            </div>
+            <div class="bg-green-100 p-3 rounded-full">
+              <i class="fas fa-child text-green-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Campanhas Ativas</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">12</h3>
+              <p class="text-sm text-gray-600 mt-1">Em andamento</p>
+            </div>
+            <div class="bg-yellow-100 p-3 rounded-full">
+              <i class="fas fa-calendar-check text-yellow-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 card-indicator">
+          <div class="flex justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-500">Estoque de Vacinas</p>
+              <h3 class="text-xl font-bold text-gray-800 mt-1">24.5M</h3>
+              <p class="text-sm text-purple-600 mt-1">Doses disponíveis</p>
+            </div>
+            <div class="bg-purple-100 p-3 rounded-full">
+              <i class="fas fa-vial text-purple-600 text-xl"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Gráficos de vacinação -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Cobertura Vacinal por Região</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="vacinacaoRegioesChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Evolução da Vacinação</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="vacinacaoEvolucaoChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <!-- Seção Recursos -->
+    <section id="recursos" class="section hidden">
+      <div class="mb-6">
+        <h2 class="text-2xl font-bold text-gray-800 mb-2">Gestão de Recursos</h2>
+        <p class="text-gray-600">Orçamento e distribuição de recursos para a saúde</p>
+      </div>
+      
+      <!-- Gráficos de recursos -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Distribuição Orçamentária</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="orcamentoChart"></canvas>
+            </div>
+          </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow-md">
+          <div class="p-4 border-b border-gray-100">
+            <h3 class="text-lg font-bold text-gray-800">Execução por Programa</h3>
+          </div>
+          <div class="p-4">
+            <div class="chart-container">
+              <canvas id="execucaoChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Tabela de repasses -->
+      <div class="bg-white rounded-lg shadow-md mb-6">
+        <div class="p-4 border-b border-gray-100">
+          <h3 class="text-lg font-bold text-gray-800">Repasses aos Estados</h3>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Valor Repassado</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Execução</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ações</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">São Paulo</td>
+                <td class="px-6 py-4 whitespace-nowrap">R$ 12.5M</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 85%"></div>
+                  </div>
+                  <span class="text-xs text-gray-500">85%</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Em dia</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" class="text-blue-600 hover:text-blue-900">Detalhes</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">Rio de Janeiro</td>
+                <td class="px-6 py-4 whitespace-nowrap">R$ 8.2M</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 65%"></div>
+                  </div>
+                  <span class="text-xs text-gray-500">65%</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Atenção</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                  <a href="#" class="text-blue-600 hover:text-blue-900">Detalhes</a>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">Bahia</td>
+                <td class="px-6 py-4 whitespace-nowrap">R$ 6.7M</td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div class="bg-blue-600 h-2.5 rounded-full" style="width: 78%"></div>
+                  </div>
+                  <span class="text-xs text-gray-500">78%</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Em dia</span>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+  
+  <!-- Footer -->
+  <footer class="bg-white border-t border-gray-200 mt-6">
+    <div class="container mx-auto px-4 py-4">
+      <p class="text-center text-gray-500 text-sm">© 2025 Roney Malaguti - Sistema Integrado de Gestão de Saúde </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Efeito de fade-in na inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        document.body.classList.add('loaded');
+      }, 100);
+      
+      // Menu do usuário (dropdown)
+      const userMenuButton = document.getElementById('userMenuButton');
+      const userMenu = document.getElementById('userMenu');
+      
+      userMenuButton.addEventListener('click', () => {
+        userMenu.classList.toggle('hidden');
+      });
+      
+      // Fecha o menu ao clicar fora
+      document.addEventListener('click', (e) => {
+        if (!userMenuButton.contains(e.target) && !userMenu.contains(e.target)) {
+          userMenu.classList.add('hidden');
+        }
+      });
+      
+      // Navegação entre seções
+      const navLinks = document.querySelectorAll('[data-section]');
+      const sections = document.querySelectorAll('.section');
+
+      navLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.preventDefault();
+          const targetSection = link.getAttribute('data-section');
+          
+          // Esconde todas as seções
+          sections.forEach(section => section.classList.add('hidden'));
+          
+          // Mostra a seção alvo
+          document.getElementById(targetSection).classList.remove('hidden');
+          
+          // Atualiza estado ativo nos links
+          navLinks.forEach(navLink => {
+            navLink.classList.remove('text-blue-600', 'border-b-2', 'border-blue-600');
+            navLink.classList.add('text-gray-600');
+          });
+          
+          link.classList.remove('text-gray-600');
+          link.classList.add('text-blue-600', 'border-b-2', 'border-blue-600');
+        });
+      });
+      
+      // Inicialização dos gráficos
+      if (typeof Chart !== 'undefined') {
+        // Gráfico de Indicadores Nacionais
+        const indicadoresCtx = document.getElementById('indicadoresChart');
+        if (indicadoresCtx) {
+          new Chart(indicadoresCtx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+              datasets: [
+                {
+                  label: 'Atendimentos',
+                  data: [350000, 420000, 380000, 430000, 390000, 450000],
+                  borderColor: 'rgb(59, 130, 246)',
+                  backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                  tension: 0.3,
+                  fill: true
+                },
+                {
+                  label: 'Internações',
+                  data: [75000, 82000, 68000, 74000, 79000, 85000],
+                  borderColor: 'rgb(16, 185, 129)',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  tension: 0.3,
+                  fill: true
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Mapa de Calor
+        const mapaCalorCtx = document.getElementById('mapaCalorChart');
+        if (mapaCalorCtx) {
+          new Chart(mapaCalorCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'],
+              datasets: [
+                {
+                  label: 'Casos COVID-19',
+                  data: [12500, 28700, 15800, 42300, 18600],
+                  backgroundColor: 'rgba(239, 68, 68, 0.7)',
+                },
+                {
+                  label: 'Casos Dengue',
+                  data: [18200, 32400, 8700, 15600, 5200],
+                  backgroundColor: 'rgba(245, 158, 11, 0.7)',
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Epidemiologia
+        const epidemiologiaCtx = document.getElementById('epidemiologiaChart');
+        if (epidemiologiaCtx) {
+          new Chart(epidemiologiaCtx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+              datasets: [
+                {
+                  label: 'Dengue',
+                  data: [5200, 8500, 12800, 15400, 12200, 8700],
+                  borderColor: 'rgb(239, 68, 68)',
+                  tension: 0.3
+                },
+                {
+                  label: 'COVID-19',
+                  data: [18500, 15200, 12800, 10400, 8200, 7500],
+                  borderColor: 'rgb(245, 158, 11)',
+                  tension: 0.3
+                },
+                {
+                  label: 'Influenza',
+                  data: [3200, 4500, 6800, 5400, 4200, 3700],
+                  borderColor: 'rgb(59, 130, 246)',
+                  tension: 0.3
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Vacinação por Regiões
+        const vacinacaoRegioesCtx = document.getElementById('vacinacaoRegioesChart');
+        if (vacinacaoRegioesCtx) {
+          new Chart(vacinacaoRegioesCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Norte', 'Nordeste', 'Centro-Oeste', 'Sudeste', 'Sul'],
+              datasets: [
+                {
+                  label: 'Cobertura Vacinal (%)',
+                  data: [68, 72, 75, 85, 82],
+                  backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true,
+                  max: 100
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Evolução da Vacinação
+        const vacinacaoEvolucaoCtx = document.getElementById('vacinacaoEvolucaoChart');
+        if (vacinacaoEvolucaoCtx) {
+          new Chart(vacinacaoEvolucaoCtx, {
+            type: 'line',
+            data: {
+              labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun'],
+              datasets: [
+                {
+                  label: 'Doses Aplicadas (milhões)',
+                  data: [12.5, 18.7, 24.3, 32.8, 38.5, 45.2],
+                  borderColor: 'rgb(16, 185, 129)',
+                  backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                  tension: 0.3,
+                  fill: true
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Orçamento
+        const orcamentoCtx = document.getElementById('orcamentoChart');
+        if (orcamentoCtx) {
+          new Chart(orcamentoCtx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Atenção Básica', 'Média e Alta Complexidade', 'Vigilância em Saúde', 'Assistência Farmacêutica', 'Outros'],
+              datasets: [
+                {
+                  data: [35, 42, 12, 8, 3],
+                  backgroundColor: [
+                    'rgba(59, 130, 246, 0.7)',
+                    'rgba(16, 185, 129, 0.7)',
+                    'rgba(245, 158, 11, 0.7)',
+                    'rgba(139, 92, 246, 0.7)',
+                    'rgba(107, 114, 128, 0.7)'
+                  ]
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'right',
+                }
+              }
+            }
+          });
+        }
+        
+        // Gráfico de Execução
+        const execucaoCtx = document.getElementById('execucaoChart');
+        if (execucaoCtx) {
+          new Chart(execucaoCtx, {
+            type: 'bar',
+            data: {
+              labels: ['Atenção Básica', 'Média e Alta Complexidade', 'Vigilância em Saúde', 'Assistência Farmacêutica', 'Outros'],
+              datasets: [
+                {
+                  label: 'Orçado (bilhões R$)',
+                  data: [45.2, 58.7, 18.3, 12.8, 5.5],
+                  backgroundColor: 'rgba(59, 130, 246, 0.7)',
+                },
+                {
+                  label: 'Executado (bilhões R$)',
+                  data: [32.5, 42.3, 10.8, 8.5, 3.2],
+                  backgroundColor: 'rgba(16, 185, 129, 0.7)',
+                }
+              ]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                legend: {
+                  position: 'top',
+                }
+              },
+              scales: {
+                y: {
+                  beginAtZero: true
+                }
+              }
+            }
+          });
+        }
+      }
+    });
+  </script>
+</body>
+</html>

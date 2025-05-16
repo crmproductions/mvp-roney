@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HealthSync - Portal do Paciente</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Estilos específicos para o dashboard do paciente */
+    .fade-in-animation {
+      opacity: 0;
+      animation: fadeInAnimation 0.8s ease-in-out forwards;
+    }
+    
+    @keyframes fadeInAnimation {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    
+    .menu-item {
+      position: relative;
+      transition: all 0.3s ease;
+    }
+    
+    .menu-item::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: -2px;
+      left: 50%;
+      background-color: #3b82f6;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+    
+    .menu-item:hover::after, .menu-item.active::after {
+      width: 100%;
+    }
+    
+    .menu-item.active {
+      color: #3b82f6;
+      font-weight: 500;
+    }
+    
+    .welcome-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: white;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 50;
+      animation: fadeOut 1.5s ease-in-out forwards;
+      animation-delay: 2s;
+    }
+    
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; visibility: hidden; }
+    }
+    
+    .welcome-logo {
+      animation: pulseAnimation 2s infinite;
+    }
+    
+    @keyframes pulseAnimation {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <!-- Tela de boas-vindas com animação -->
+  <div class="welcome-screen">
+    <div class="welcome-logo text-center">
+      <i class="fas fa-user-injured text-blue-600 text-7xl mb-4"></i>
+      <h1 class="text-3xl font-bold text-gray-800">Bem-vindo(a), Maria</h1>
+      <p class="text-gray-600 mt-2">Carregando seu portal de saúde...</p>
+    </div>
+  </div>
+
+  <!-- Header com menu superior -->
+  <header class="bg-white shadow-md">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-between items-center py-4">
+        <!-- Logo -->
+        <div class="flex items-center">
+          <i class="fas fa-heartbeat text-blue-600 text-2xl mr-2"></i>
+          <h1 class="text-xl font-bold text-gray-800">Health<span class="text-blue-600">Sync</span></h1>
+        </div>
+        
+        <!-- Menu de navegação -->
+        <nav class="hidden md:flex space-x-8">
+          <a href="#dashboard" class="menu-item active text-gray-700 hover:text-blue-600">Início</a>
+          <a href="#consultas" class="menu-item text-gray-700 hover:text-blue-600">Minhas Consultas</a>
+          <a href="#exames" class="menu-item text-gray-700 hover:text-blue-600">Meus Exames</a>
+          <a href="#medicamentos" class="menu-item text-gray-700 hover:text-blue-600">Medicamentos</a>
+          <a href="#historico" class="menu-item text-gray-700 hover:text-blue-600">Histórico Médico</a>
+        </nav>
+        
+        <!-- Menu do usuário -->
+        <div class="flex items-center space-x-4">
+          <div class="relative">
+            <button class="text-gray-500 hover:text-blue-600">
+              <i class="fas fa-bell text-xl"></i>
+              <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+            </button>
+          </div>
+          
+          <div class="relative group">
+            <button class="flex items-center space-x-2">
+              <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Maria Oliveira" class="w-8 h-8 rounded-full object-cover border-2 border-blue-600">
+              <span class="text-sm font-medium text-gray-700 hidden md:inline-block">Maria Oliveira</span>
+              <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+            </button>
+            
+            <div class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-10 hidden group-hover:block">
+              <a href="#perfil" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Meu Perfil</a>
+              <a href="#configuracoes" class="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-50">Configurações</a>
+              <div class="border-t border-gray-100"></div>
+              <a href="index.html" class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50">Sair</a>
+            </div>
+          </div>
+          
+          <!-- Botão de menu mobile -->
+          <button class="md:hidden text-gray-500 hover:text-blue-600" id="mobile-menu-button">
+            <i class="fas fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Menu mobile (oculto por padrão) -->
+      <div class="md:hidden hidden" id="mobile-menu">
+        <div class="py-3 space-y-1">
+          <a href="#dashboard" class="block py-2 px-4 text-base font-medium text-blue-600 bg-blue-50 rounded-md">Início</a>
+          <a href="#consultas" class="block py-2 px-4 text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md">Minhas Consultas</a>
+          <a href="#exames" class="block py-2 px-4 text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md">Meus Exames</a>
+          <a href="#medicamentos" class="block py-2 px-4 text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md">Medicamentos</a>
+          <a href="#historico" class="block py-2 px-4 text-base font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-md">Histórico Médico</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Conteúdo principal -->
+  <main class="container mx-auto px-4 py-8 fade-in-animation">
+    <!-- Seção de boas-vindas e resumo -->
+    <div class="mb-8">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">Olá, Maria</h2>
+      <p class="text-gray-600">Bem-vindo ao seu portal de saúde. Você tem <span class="font-medium text-blue-600">1 consulta</span> agendada para esta semana.</p>
+    </div>
+    
+    <!-- Cards de resumo -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">Próxima Consulta</p>
+            <h3 class="text-xl font-bold text-gray-800 mt-1">15/05 - 09:30</h3>
+            <p class="text-sm text-gray-600 mt-1">Dr. João Silva</p>
+          </div>
+          <div class="bg-blue-100 p-3 rounded-full">
+            <i class="fas fa-calendar-check text-blue-600 text-xl"></i>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a href="#consultas" class="text-blue-600 text-sm font-medium hover:text-blue-800">Ver detalhes</a>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">Exames Pendentes</p>
+            <h3 class="text-xl font-bold text-gray-800 mt-1">2</h3>
+            <p class="text-sm text-gray-600 mt-1">Hemograma, Glicemia</p>
+          </div>
+          <div class="bg-green-100 p-3 rounded-full">
+            <i class="fas fa-flask text-green-600 text-xl"></i>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a href="#exames" class="text-green-600 text-sm font-medium hover:text-green-800">Ver detalhes</a>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">Medicamentos Ativos</p>
+            <h3 class="text-xl font-bold text-gray-800 mt-1">3</h3>
+            <p class="text-sm text-gray-600 mt-1">Próxima dose: 12:00</p>
+          </div>
+          <div class="bg-purple-100 p-3 rounded-full">
+            <i class="fas fa-pills text-purple-600 text-xl"></i>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a href="#medicamentos" class="text-purple-600 text-sm font-medium hover:text-purple-800">Ver detalhes</a>
+        </div>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-yellow-500 hover:shadow-lg transition-shadow">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-sm font-medium text-gray-500">Índice de Saúde</p>
+            <h3 class="text-xl font-bold text-gray-800 mt-1">85%</h3>
+            <p class="text-sm text-gray-600 mt-1">Bom</p>
+          </div>
+          <div class="bg-yellow-100 p-3 rounded-full">
+            <i class="fas fa-heartbeat text-yellow-600 text-xl"></i>
+          </div>
+        </div>
+        <div class="mt-4">
+          <a href="#historico" class="text-yellow-600 text-sm font-medium hover:text-yellow-800">Ver detalhes</a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Seção de consultas e exames -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+      <!-- Próximas consultas -->
+      <div class="lg:col-span-2 bg-white rounded-lg shadow-md">
+        <div class="p-6 border-b border-gray-100">
+          <h3 class="text-lg font-bold text-gray-800">Próximas Consultas</h3>
+        </div>
+        <div class="p-6">
+          <div class="space-y-6">
+            <div class="flex items-start">
+              <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Dr. João Silva" class="w-10 h-10 rounded-full mr-4">
+              <div class="flex-1">
+                <div class="flex justify-between items-start">
+                  <div>
+                    <h4 class="text-sm font-medium text-gray-800">Dr. João Silva</h4>
+                    <p class="text-xs text-gray-500">Cardiologista</p>
+                  </div>
+                  <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">15/05 - 09:30</span>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">Consulta de rotina</p>
+                <div class="flex mt-2">
+                  <button class="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded mr-2">
+                    <i class="fas fa-video mr-1"></i> Teleconsulta
+                  </button>
+                  <button class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 py-1 px-3 rounded">
+                    <i class="fas fa-calendar-alt mr-1"></i> Reagendar
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+            <div class="flex items-start">
+            <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Dra. Maria Santos" class="w-10 h-10 rounded-full mr-4">
+            <div class="flex-1">
+              <div class="flex justify-between items-start">
+                <div>
+                  <h4 class="text-sm font-medium text-gray-800">Dra. Maria Santos</h4>
+                  <p class="text-xs text-gray-500">Dermatologista</p>
+                </div>
+                <span class="bg-blue-100 text-blue-800 text-xs font-medium px-2.5 py-0.5 rounded">17/05 - 14:00</span>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">Consulta de rotina</p>
+                <div class="flex mt-2">
+                  <button class="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded mr-2">
+                    <i class="fas fa-video mr-1"></i> Teleconsulta
+                  </button>
+                  <button class
+                  class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 py-1 px-3 rounded">
+                  <i class="fas fa-calendar-alt mr-1"></i> Reagendar
+                  </button>
+                  </div>
+              </div>
+              </div>
+              <div>
+                <div class="flex items-start">
+                  <img src="https://randomuser.me/api/portraits/men/56.jpg" alt="Dr. Carlos Oliveira" class="w-10 h-10 rounded-full mr-4">
+                  <div class="flex-1">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <h4 class="text-sm font-medium text-gray-800">Dr. Carlos Oliveira</h4>
+                        <p class="text-xs text-gray-500">Ortopedista</p>
+                        <div>
+                          <button class="text-xs bg-blue-600 hover:bg-blue-700 text-white py-1 px-3 rounded mr-2">
+                            <i class="fas fa-video mr-1"></i> Teleconsulta
+                          </button>
+                          <button class="text-xs bg-gray-200 hover:bg-gray-300 text-gray-700 py-1 px-3 rounded">
+                            <i class="fas fa-calendar-alt mr-1"></i> Reagendar
+                          </button>
+                      
+                      
+                          </div>
+                          </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+                        </div>
+
+
+              
+    </script>
+  </body>
+  </html>
+  
