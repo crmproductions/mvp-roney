@@ -1,409 +1,517 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HealthSync - Sistema de Gestão de Saúde Pública</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body class="font-sans bg-gray-50 opacity-0 transition-opacity duration-500">
-
-  <!-- Header/Navbar -->
-  <header class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
-    <div class="container mx-auto px-4 py-3">
-      <div class="flex justify-between items-center">
-        <div class="flex items-center">
-          <i class="fas fa-heartbeat text-3xl text-blue-600 mr-2"></i>
-          <h1 class="text-xl font-bold text-gray-800">HealthSync</h1>
-        </div>
-        
-        <!-- Barra de pesquisa -->
-        <div class="hidden md:block flex-grow mx-10 max-w-xl">
-          <div class="relative">
-            <input type="text" placeholder="Buscar médicos, especialidades, centros médicos..." 
-                  class="w-full py-2 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-            <button class="absolute right-3 top-2.5 text-gray-400">
-              <i class="fas fa-search"></i>
-            </button>
-          </div>
-        </div>
-        
-        <div class="flex items-center space-x-4">
-          <button id="loginHeaderBtn" class="px-4 py-2 text-blue-600 font-medium hover:text-blue-800">
-            Login
-          </button>
-          <button id="registerHeaderBtn" class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors">
-            Cadastre-se
-          </button>
-        </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Espaço para o header fixo -->
-  <div class="pt-16"></div>
-
-  <!-- Hero Section com Carrossel (estilo Twitter header) -->
-  <div class="w-full h-64 md:h-80 relative overflow-hidden">
-    <div class="swiper-container h-full">
-      <div class="swiper-wrapper">
-        <!-- Slide 1 -->
-        <div class="swiper-slide relative">
-          <div class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-600/40 z-10"></div>
-          <img src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Healthcare" class="absolute inset-0 w-full h-full object-cover" />
-          <div class="absolute inset-0 flex items-center z-20">
-            <div class="container mx-auto px-6 md:px-12">
-              <div class="w-full md:w-2/3 lg:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Gestão Integrada de Saúde</h2>
-                <p class="text-lg text-blue-100">Conectando pacientes, médicos e gestores públicos.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Slide 2 -->
-        <div class="swiper-slide relative">
-          <div class="absolute inset-0 bg-gradient-to-r from-green-900/70 to-green-600/40 z-10"></div>
-          <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Healthcare" class="absolute inset-0 w-full h-full object-cover" />
-          <div class="absolute inset-0 flex items-center z-20">
-            <div class="container mx-auto px-6 md:px-12">
-              <div class="w-full md:w-2/3 lg:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Acesso Simplificado à Saúde</h2>
-                <p class="text-lg text-green-100">Agende consultas e acompanhe seu histórico médico.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Slide 3 -->
-        <div class="swiper-slide relative">
-          <div class="absolute inset-0 bg-gradient-to-r from-purple-900/70 to-purple-600/40 z-10"></div>
-          <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Healthcare" class="absolute inset-0 w-full h-full object-cover" />
-          <div class="absolute inset-0 flex items-center z-20">
-            <div class="container mx-auto px-6 md:px-12">
-              <div class="w-full md:w-2/3 lg:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Dados em Tempo Real</h2>
-                <p class="text-lg text-purple-100">Informações atualizadas para decisões estratégicas.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- Pagination -->
-      <div class="swiper-pagination"></div>
-    </div>
-  </div>
-
-  <!-- Seção de Especialidades -->
-  <section class="py-10 bg-white">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Especialidades Médicas</h2>
-      
-      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-        <!-- Especialidade 1 -->
-        <div class="bg-blue-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-heart text-blue-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Cardiologia</h3>
-          <p class="text-sm text-gray-600 mt-1">32 médicos</p>
-        </div>
-        
-        <!-- Especialidade 2 -->
-        <div class="bg-green-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-brain text-green-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Neurologia</h3>
-          <p class="text-sm text-gray-600 mt-1">28 médicos</p>
-        </div>
-        
-        <!-- Especialidade 3 -->
-        <div class="bg-purple-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-purple-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-bone text-purple-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Ortopedia</h3>
-          <p class="text-sm text-gray-600 mt-1">45 médicos</p>
-        </div>
-        
-        <!-- Especialidade 4 -->
-        <div class="bg-red-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-red-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-lungs text-red-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Pneumologia</h3>
-          <p class="text-sm text-gray-600 mt-1">19 médicos</p>
-        </div>
-        
-        <!-- Especialidade 5 -->
-        <div class="bg-yellow-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-yellow-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-eye text-yellow-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Oftalmologia</h3>
-          <p class="text-sm text-gray-600 mt-1">23 médicos</p>
-        </div>
-        
-        <!-- Especialidade 6 -->
-        <div class="bg-indigo-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
-          <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
-            <i class="fas fa-tooth text-indigo-600 text-2xl"></i>
-          </div>
-          <h3 class="font-medium text-gray-800">Odontologia</h3>
-          <p class="text-sm text-gray-600 mt-1">37 médicos</p>
-        </div>
-      </div>
-      
-      <div class="text-center mt-6">
-        <button class="text-blue-600 font-medium hover:text-blue-800">
-          Ver todas as especialidades <i class="fas fa-chevron-right ml-1 text-xs"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Seção de Centros Médicos -->
-  <section class="py-10 bg-gray-50">
-    <div class="container mx-auto px-4">
-      <h2 class="text-2xl font-bold text-gray-800 mb-6">Centros Médicos</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Centro Médico 1 -->
-        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-          <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Hospital Central" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <h3 class="font-bold text-lg text-gray-800">Hospital Central</h3>
-            <div class="flex items-center mt-2 mb-3">
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star-half-alt text-yellow-400"></i>
-              <span class="text-gray-600 text-sm ml-2">(128 avaliações)</span>
-            </div>
-            <p class="text-gray-600 mb-3">
-              <i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA
-            </p>
-            <p class="text-gray-600 mb-4">
-              <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 24 especialidades disponíveis
-            </p>
-            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-        
-        <!-- Centro Médico 2 -->
-        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-          <img src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Clínica Saúde Total" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <h3 class="font-bold text-lg text-gray-800">Clínica Saúde Total</h3>
-            <div class="flex items-center mt-2 mb-3">
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="far fa-star text-yellow-400"></i>
-              <span class="text-gray-600 text-sm ml-2">(96 avaliações)</span>
-            </div>
-            <p class="text-gray-600 mb-3">
-              <i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA
-            </p>
-            <p class="text-gray-600 mb-4">
-              <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 18 especialidades disponíveis
-            </p>
-            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-        
-        <!-- Centro Médico 3 -->
-        <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
-          <img src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Centro Médico Esperança" class="w-full h-48 object-cover">
-          <div class="p-5">
-            <h3 class="font-bold text-lg text-gray-800">Centro Médico Esperança</h3>
-            <div class="flex items-center mt-2 mb-3">
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <i class="fas fa-star text-yellow-400"></i>
-              <span class="text-gray-600 text-sm ml-2">(152 avaliações)</span>
-            </div>
-            <p class="text-gray-600 mb-3">
-              <i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA
-            </p>
-            <p class="text-gray-600 mb-4">
-              <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 30 especialidades disponíveis
-            </p>
-            <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
-              Ver detalhes
-            </button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="text-center mt-6">
-        <button class="text-blue-600 font-medium hover:text-blue-800">
-          Ver todos os centros médicos <i class="fas fa-chevron-right ml-1 text-xs"></i>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Login/Register Modal -->
-  <div id="authModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-    
-    <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md z-10 relative">
-      <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-        <i class="fas fa-times text-xl"></i>
-      </button>
-      
-      <div class="bg-blue-600 py-6 px-8 text-white text-center">
-        <i class="fas fa-heartbeat text-4xl mb-2"></i>
-        <h1 class="text-2xl font-bold">HealthSync</h1>
-        <p class="text-blue-100">Sistema Integrado de Gestão de Saúde Pública</p>
-      </div>
-
-      <div class="p-8">
-        <!-- Tabs -->
-        <div class="flex justify-center mb-6">
-          <button id="loginTab" class="px-4 py-2 font-medium text-blue-600 border-b-2 border-blue-600">Login</button>
-          <button id="registerTab" class="px-4 py-2 font-medium text-gray-500">Cadastro</button>
-        </div>
-
-        <!-- Login Form -->
-        <form id="loginForm">
-          <input type="hidden" name="role" id="loginRole" value="patient" />
-
-          <!-- User Type -->
-          <div class="grid grid-cols-3 gap-3 mb-6">
-            <button type="button" data-role="doctor" class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center">
-              <i class="fas fa-user-md text-2xl mb-1 text-blue-600"></i>
-              <p class="text-sm font-medium">Médico</p>
-            </button>
-            <button type="button" data-role="government" class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center">
-              <i class="fas fa-landmark text-2xl mb-1 text-blue-600"></i>
-              <p class="text-sm font-medium">Governo</p>
-            </button>
-            <button type="button" data-role="patient" class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center active">
-              <i class="fas fa-user-injured text-2xl mb-1 text-blue-600"></i>
-              <p class="text-sm font-medium">Paciente</p>
-            </button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthSync - Sistema de Gestão de Saúde Pública</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
+    <script src="./chatAI/static/chat-app.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="font-sans bg-gray-50 opacity-0 transition-opacity duration-500">
+    <!-- Header/Navbar -->
+    <header class="bg-white shadow-md fixed top-0 left-0 right-0 z-50">
+      <div class="container mx-auto px-4 py-3">
+        <div class="flex justify-between items-center">
+          <div class="flex items-center">
+            <i class="fas fa-heartbeat text-3xl text-blue-600 mr-2"></i>
+            <h1 class="text-xl font-bold text-gray-800">HealthSync</h1>
           </div>
 
-          <!-- Email -->
-          <div class="mb-4">
-            <label for="loginEmail" class="block text-gray-700 text-sm font-medium mb-2">E-mail</label>
-            <input type="email" id="loginEmail" name="email" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="seu@email.com" required />
-          </div>
-
-          <!-- Password -->
-          <div class="mb-6">
-            <label for="loginPassword" class="block text-gray-700 text-sm font-medium mb-2">Senha</label>
+          <!-- Barra de pesquisa -->
+          <div class="hidden md:block flex-grow mx-10 max-w-xl">
             <div class="relative">
-              <input type="password" id="loginPassword" name="password" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••" required />
-              <button type="button" id="togglePassword" class="absolute right-3 top-2.5 text-gray-400">
-                <i class="fas fa-eye"></i>
+              <input
+                type="text"
+                placeholder="Buscar médicos, especialidades, centros médicos..."
+                class="w-full py-2 px-4 pr-10 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+              <button class="absolute right-3 top-2.5 text-gray-400">
+                <i class="fas fa-search"></i>
               </button>
             </div>
           </div>
 
-          <!-- Lembrar-me -->
-          <div class="flex items-center justify-between mb-6">
-            <div class="flex items-center">
-              <input type="checkbox" id="rememberMe" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded" />
-              <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Lembrar-me</label>
+          <div class="flex items-center space-x-4">
+            <button id="loginHeaderBtn" class="px-4 py-2 text-blue-600 font-medium hover:text-blue-800">Login</button>
+            <button
+              id="registerHeaderBtn"
+              class="px-4 py-2 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              Cadastre-se
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Espaço para o header fixo -->
+    <div class="pt-16"></div>
+
+    <!-- Hero Section com Carrossel (estilo Twitter header) -->
+    <div class="w-full h-64 md:h-80 relative overflow-hidden">
+      <div class="swiper-container h-full">
+        <div class="swiper-wrapper">
+          <!-- Slide 1 -->
+          <div class="swiper-slide relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-blue-900/70 to-blue-600/40 z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+              alt="Healthcare"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 flex items-center z-20">
+              <div class="container mx-auto px-6 md:px-12">
+                <div class="w-full md:w-2/3 lg:w-1/2">
+                  <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Gestão Integrada de Saúde</h2>
+                  <p class="text-lg text-blue-100">Conectando pacientes, médicos e gestores públicos.</p>
+                </div>
+              </div>
             </div>
-            <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Esqueceu a senha?</a>
           </div>
 
-          <!-- Login Button -->
-          <button id="loginButton" type="button" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-colors">
-            Entrar
-          </button>
-        </form>
+          <!-- Slide 2 -->
+          <div class="swiper-slide relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-green-900/70 to-green-600/40 z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+              alt="Healthcare"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 flex items-center z-20">
+              <div class="container mx-auto px-6 md:px-12">
+                <div class="w-full md:w-2/3 lg:w-1/2">
+                  <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Acesso Simplificado à Saúde</h2>
+                  <p class="text-lg text-green-100">Agende consultas e acompanhe seu histórico médico.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-        <!-- Register Form (oculto por padrão) -->
-        <div id="registerForm" class="hidden">
-          <!-- Name Input -->
-          <div class="mb-4">
-              <label for="registerName" class="block text-gray-700 text-sm font-medium mb-2">Nome Completo</label>
-              <input type="text" id="registerName" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Seu nome completo">
-          </div>
-          
-          <!-- Email Input -->
-          <div class="mb-4">
-              <label for="registerEmail" class="block text-gray-700 text-sm font-medium mb-2">E-mail</label>
-              <input type="email" id="registerEmail" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="seu@email.com">
-          </div>
-          
-          <!-- Password Input -->
-          <div class="mb-4">
-              <label for="registerPassword" class="block text-gray-700 text-sm font-medium mb-2">Senha</label>
-              <div class="relative">
-                  <input type="password" id="registerPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••">
-                  <button type="button" class="absolute right-3 top-2.5 text-gray-400 toggle-password">
-                      <i class="fas fa-eye"></i>
-                  </button>
+          <!-- Slide 3 -->
+          <div class="swiper-slide relative">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-900/70 to-purple-600/40 z-10"></div>
+            <img
+              src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+              alt="Healthcare"
+              class="absolute inset-0 w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 flex items-center z-20">
+              <div class="container mx-auto px-6 md:px-12">
+                <div class="w-full md:w-2/3 lg:w-1/2">
+                  <h2 class="text-3xl md:text-4xl font-bold text-white mb-2">Dados em Tempo Real</h2>
+                  <p class="text-lg text-purple-100">Informações atualizadas para decisões estratégicas.</p>
+                </div>
               </div>
+            </div>
           </div>
-          
-          <!-- Confirm Password Input -->
-          <div class="mb-4">
-              <label for="registerConfirmPassword" class="block text-gray-700 text-sm font-medium mb-2">Confirmar Senha</label>
-              <div class="relative">
-                  <input type="password" id="registerConfirmPassword" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="••••••••">
-                  <button type="button" class="absolute right-3 top-2.5 text-gray-400 toggle-password">
-                      <i class="fas fa-eye"></i>
-                  </button>
-              </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <!-- Seção de Especialidades -->
+    <section class="py-10 bg-white">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Especialidades Médicas</h2>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          <!-- Especialidade 1 -->
+          <div class="bg-blue-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-blue-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-heart text-blue-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Cardiologia</h3>
+            <p class="text-sm text-gray-600 mt-1">32 médicos</p>
           </div>
-          
-          <!-- User Type Selection -->
-          <div class="mb-6">
-              <label for="registerRole" class="block text-gray-700 text-sm font-medium mb-2">Tipo de Usuário</label>
-              <select id="registerRole" class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500">
-                  <option value="patient">Paciente</option>
-                  <option value="doctor">Médico</option>
-                  <option value="government">Governo</option>
-              </select>
+
+          <!-- Especialidade 2 -->
+          <div class="bg-green-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-green-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-brain text-green-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Neurologia</h3>
+            <p class="text-sm text-gray-600 mt-1">28 médicos</p>
           </div>
-          
-          <!-- Register Button -->
-          <button id="registerButton" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-colors">
-              Cadastrar
+
+          <!-- Especialidade 3 -->
+          <div class="bg-purple-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-purple-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-bone text-purple-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Ortopedia</h3>
+            <p class="text-sm text-gray-600 mt-1">45 médicos</p>
+          </div>
+
+          <!-- Especialidade 4 -->
+          <div class="bg-red-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-red-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-lungs text-red-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Pneumologia</h3>
+            <p class="text-sm text-gray-600 mt-1">19 médicos</p>
+          </div>
+
+          <!-- Especialidade 5 -->
+          <div class="bg-yellow-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-yellow-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-eye text-yellow-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Oftalmologia</h3>
+            <p class="text-sm text-gray-600 mt-1">23 médicos</p>
+          </div>
+
+          <!-- Especialidade 6 -->
+          <div class="bg-indigo-50 rounded-lg p-4 text-center hover:shadow-md transition-shadow">
+            <div class="bg-indigo-100 w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-3">
+              <i class="fas fa-tooth text-indigo-600 text-2xl"></i>
+            </div>
+            <h3 class="font-medium text-gray-800">Odontologia</h3>
+            <p class="text-sm text-gray-600 mt-1">37 médicos</p>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <button class="text-blue-600 font-medium hover:text-blue-800">
+            Ver todas as especialidades <i class="fas fa-chevron-right ml-1 text-xs"></i>
           </button>
         </div>
-        
-        <!-- Usuários de demonstração -->
-        <div class="mt-6 text-center space-y-2">
-          <p class="text-gray-600 text-sm">Usuários de demonstração:</p>
-          <div class="flex justify-center space-x-2">
-            <button type="button" class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm" data-email="medico@healthsync.com" data-password="medico123" data-role="doctor">Médico</button>
-            <button type="button" class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm" data-email="governo@healthsync.com" data-password="governo123" data-role="government">Governo</button>
-            <button type="button" class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm" data-email="paciente@healthsync.com" data-password="paciente123" data-role="patient">Paciente</button>
+      </div>
+    </section>
+
+    <!-- Seção de Centros Médicos -->
+    <section class="py-10 bg-gray-50">
+      <div class="container mx-auto px-4">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6">Centros Médicos</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Centro Médico 1 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+            <img
+              src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Hospital Central"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-5">
+              <h3 class="font-bold text-lg text-gray-800">Hospital Central</h3>
+              <div class="flex items-center mt-2 mb-3">
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star-half-alt text-yellow-400"></i>
+                <span class="text-gray-600 text-sm ml-2">(128 avaliações)</span>
+              </div>
+              <p class="text-gray-600 mb-3"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA</p>
+              <p class="text-gray-600 mb-4">
+                <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 24 especialidades disponíveis
+              </p>
+              <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
+                Ver detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Centro Médico 2 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+            <img
+              src="https://images.unsplash.com/photo-1586773860418-d37222d8fce3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Clínica Saúde Total"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-5">
+              <h3 class="font-bold text-lg text-gray-800">Clínica Saúde Total</h3>
+              <div class="flex items-center mt-2 mb-3">
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="far fa-star text-yellow-400"></i>
+                <span class="text-gray-600 text-sm ml-2">(96 avaliações)</span>
+              </div>
+              <p class="text-gray-600 mb-3"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA</p>
+              <p class="text-gray-600 mb-4">
+                <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 18 especialidades disponíveis
+              </p>
+              <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
+                Ver detalhes
+              </button>
+            </div>
+          </div>
+
+          <!-- Centro Médico 3 -->
+          <div class="bg-white rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+            <img
+              src="https://images.unsplash.com/photo-1516549655169-df83a0774514?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+              alt="Centro Médico Esperança"
+              class="w-full h-48 object-cover"
+            />
+            <div class="p-5">
+              <h3 class="font-bold text-lg text-gray-800">Centro Médico Esperança</h3>
+              <div class="flex items-center mt-2 mb-3">
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <i class="fas fa-star text-yellow-400"></i>
+                <span class="text-gray-600 text-sm ml-2">(152 avaliações)</span>
+              </div>
+              <p class="text-gray-600 mb-3"><i class="fas fa-map-marker-alt text-red-500 mr-1"></i> Salvador/BA</p>
+              <p class="text-gray-600 mb-4">
+                <i class="fas fa-stethoscope text-blue-500 mr-1"></i> 30 especialidades disponíveis
+              </p>
+              <button class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors w-full">
+                Ver detalhes
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="text-center mt-6">
+          <button class="text-blue-600 font-medium hover:text-blue-800">
+            Ver todos os centros médicos <i class="fas fa-chevron-right ml-1 text-xs"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Login/Register Modal -->
+    <div id="authModal" class="fixed inset-0 flex items-center justify-center z-50 hidden">
+      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+
+      <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-md z-10 relative">
+        <button id="closeModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
+          <i class="fas fa-times text-xl"></i>
+        </button>
+
+        <div class="bg-blue-600 py-6 px-8 text-white text-center">
+          <i class="fas fa-heartbeat text-4xl mb-2"></i>
+          <h1 class="text-2xl font-bold">HealthSync</h1>
+          <p class="text-blue-100">Sistema Integrado de Gestão de Saúde Pública</p>
+        </div>
+
+        <div class="p-8">
+          <!-- Tabs -->
+          <div class="flex justify-center mb-6">
+            <button id="loginTab" class="px-4 py-2 font-medium text-blue-600 border-b-2 border-blue-600">Login</button>
+            <button id="registerTab" class="px-4 py-2 font-medium text-gray-500">Cadastro</button>
+          </div>
+
+          <!-- Login Form -->
+          <form id="loginForm">
+            <input type="hidden" name="role" id="loginRole" value="patient" />
+
+            <!-- User Type -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              <button
+                type="button"
+                data-role="doctor"
+                class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center"
+              >
+                <i class="fas fa-user-md text-2xl mb-1 text-blue-600"></i>
+                <p class="text-sm font-medium">Médico</p>
+              </button>
+              <button
+                type="button"
+                data-role="government"
+                class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center"
+              >
+                <i class="fas fa-landmark text-2xl mb-1 text-blue-600"></i>
+                <p class="text-sm font-medium">Governo</p>
+              </button>
+              <button
+                type="button"
+                data-role="patient"
+                class="user-type-btn py-3 px-2 rounded-lg border border-gray-200 text-center active"
+              >
+                <i class="fas fa-user-injured text-2xl mb-1 text-blue-600"></i>
+                <p class="text-sm font-medium">Paciente</p>
+              </button>
+            </div>
+
+            <!-- Email -->
+            <div class="mb-4">
+              <label for="loginEmail" class="block text-gray-700 text-sm font-medium mb-2">E-mail</label>
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="seu@email.com"
+                required
+              />
+            </div>
+
+            <!-- Password -->
+            <div class="mb-6">
+              <label for="loginPassword" class="block text-gray-700 text-sm font-medium mb-2">Senha</label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="loginPassword"
+                  name="password"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="••••••••"
+                  required
+                />
+                <button type="button" id="togglePassword" class="absolute right-3 top-2.5 text-gray-400">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Lembrar-me -->
+            <div class="flex items-center justify-between mb-6">
+              <div class="flex items-center">
+                <input
+                  type="checkbox"
+                  id="rememberMe"
+                  class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                />
+                <label for="rememberMe" class="ml-2 block text-sm text-gray-700">Lembrar-me</label>
+              </div>
+              <a href="#" class="text-sm text-blue-600 hover:text-blue-800">Esqueceu a senha?</a>
+            </div>
+
+            <!-- Login Button -->
+            <button
+              id="loginButton"
+              type="button"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-colors"
+            >
+              Entrar
+            </button>
+          </form>
+
+          <!-- Register Form (oculto por padrão) -->
+          <div id="registerForm" class="hidden">
+            <!-- Name Input -->
+            <div class="mb-4">
+              <label for="registerName" class="block text-gray-700 text-sm font-medium mb-2">Nome Completo</label>
+              <input
+                type="text"
+                id="registerName"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="Seu nome completo"
+              />
+            </div>
+
+            <!-- Email Input -->
+            <div class="mb-4">
+              <label for="registerEmail" class="block text-gray-700 text-sm font-medium mb-2">E-mail</label>
+              <input
+                type="email"
+                id="registerEmail"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                placeholder="seu@email.com"
+              />
+            </div>
+
+            <!-- Password Input -->
+            <div class="mb-4">
+              <label for="registerPassword" class="block text-gray-700 text-sm font-medium mb-2">Senha</label>
+              <div class="relative">
+                <input
+                  type="password"
+                  id="registerPassword"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="••••••••"
+                />
+                <button type="button" class="absolute right-3 top-2.5 text-gray-400 toggle-password">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Confirm Password Input -->
+            <div class="mb-4">
+              <label for="registerConfirmPassword" class="block text-gray-700 text-sm font-medium mb-2"
+                >Confirmar Senha</label
+              >
+              <div class="relative">
+                <input
+                  type="password"
+                  id="registerConfirmPassword"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="••••••••"
+                />
+                <button type="button" class="absolute right-3 top-2.5 text-gray-400 toggle-password">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- User Type Selection -->
+            <div class="mb-6">
+              <label for="registerRole" class="block text-gray-700 text-sm font-medium mb-2">Tipo de Usuário</label>
+              <select
+                id="registerRole"
+                class="w-full px-4 py-2 border border-gray-300 rounded-lg input-field focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="patient">Paciente</option>
+                <option value="doctor">Médico</option>
+                <option value="government">Governo</option>
+              </select>
+            </div>
+
+            <!-- Register Button -->
+            <button
+              id="registerButton"
+              class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 font-medium transition-colors"
+            >
+              Cadastrar
+            </button>
+          </div>
+
+          <!-- Usuários de demonstração -->
+          <div class="mt-6 text-center space-y-2">
+            <p class="text-gray-600 text-sm">Usuários de demonstração:</p>
+            <div class="flex justify-center space-x-2">
+              <button
+                type="button"
+                class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
+                data-email="medico@healthsync.com"
+                data-password="medico123"
+                data-role="doctor"
+              >
+                Médico
+              </button>
+              <button
+                type="button"
+                class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
+                data-email="governo@healthsync.com"
+                data-password="governo123"
+                data-role="government"
+              >
+                Governo
+              </button>
+              <button
+                type="button"
+                class="demo-login bg-blue-500 hover:bg-blue-600 text-white py-1 px-3 rounded text-sm"
+                data-email="paciente@healthsync.com"
+                data-password="paciente123"
+                data-role="patient"
+              >
+                Paciente
+              </button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Splash Screen / Logo Intro -->
-  <div id="splashScreen" class="fixed inset-0 bg-white flex items-center justify-center z-[100]">
-    <div class="text-center">
-      <i class="fas fa-heartbeat text-6xl text-blue-600 mb-4 animate-pulse"></i>
-      <h1 class="text-3xl font-bold text-gray-800">HealthSync</h1>
-      <p class="text-gray-600 mt-2">Sistema Integrado de Gestão de Saúde Pública</p>
+    <!-- Splash Screen / Logo Intro -->
+    <div id="splashScreen" class="fixed inset-0 bg-white flex items-center justify-center z-[100]">
+      <div class="text-center">
+        <i class="fas fa-heartbeat text-6xl text-blue-600 mb-4 animate-pulse"></i>
+        <h1 class="text-3xl font-bold text-gray-800">HealthSync</h1>
+        <p class="text-gray-600 mt-2">Sistema Integrado de Gestão de Saúde Pública</p>
+      </div>
     </div>
-  </div>
 
     <!-- Footer -->
     <footer class="bg-gray-800 text-white py-10">
@@ -416,7 +524,8 @@
               <h3 class="text-xl font-bold">HealthSync</h3>
             </div>
             <p class="text-gray-400 mb-4">
-              Sistema integrado de gestão de saúde pública, conectando pacientes, médicos e gestores para uma saúde mais eficiente.
+              Sistema integrado de gestão de saúde pública, conectando pacientes, médicos e gestores para uma saúde mais
+              eficiente.
             </p>
             <div class="flex space-x-4">
               <a href="#" class="text-gray-400 hover:text-white transition-colors">
@@ -428,12 +537,15 @@
               <a href="#" class="text-gray-400 hover:text-white transition-colors">
                 <i class="fab fa-instagram"></i>
               </a>
-              <a href="https://www.linkedin.com/in/roney-malaguti-804886146/" class="text-gray-400 hover:text-white transition-colors">
+              <a
+                href="https://www.linkedin.com/in/roney-malaguti-804886146/"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
                 <i class="fab fa-linkedin-in"></i>
               </a>
             </div>
           </div>
-          
+
           <!-- Coluna 2 - Links Rápidos -->
           <div>
             <h3 class="text-lg font-semibold mb-4">Links Rápidos</h3>
@@ -445,7 +557,7 @@
               <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Agendamentos</a></li>
             </ul>
           </div>
-          
+
           <!-- Coluna 3 - Contato -->
           <div>
             <h3 class="text-lg font-semibold mb-4">Contato</h3>
@@ -464,32 +576,38 @@
               </li>
             </ul>
           </div>
-          
+
           <!-- Coluna 4 - Newsletter -->
           <div>
             <h3 class="text-lg font-semibold mb-4">Newsletter</h3>
             <p class="text-gray-400 mb-4">Receba novidades e atualizações sobre saúde pública.</p>
             <form class="space-y-2">
-              <input type="email" placeholder="Seu e-mail" class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-              <button type="submit" class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors">
+              <input
+                type="email"
+                placeholder="Seu e-mail"
+                class="w-full px-4 py-2 rounded-lg bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+              <button
+                type="submit"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+              >
                 Inscrever-se
               </button>
             </form>
           </div>
         </div>
-        
+
         <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p> © 2025 Roney Malaguti - Sistema Integrado de Gestão de Saúde</p>
+          <p>© 2025 Roney Malaguti - Sistema Integrado de Gestão de Saúde</p>
         </div>
       </div>
     </footer>
-  
+
     <!-- Container dinâmico oculto -->
     <div id="appContainer" class="hidden"></div>
-  
+
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
     <script src="login.js"></script>
   </body>
-  </html>
-  
+</html>
